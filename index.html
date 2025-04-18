@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Stream to Earn - Web</title>
+    <style>
+        /* Estilos modernos aquí */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Configura tu Stream to Earn</h1>
+        <div id="game-select">
+            <button onclick="setupGame('minecraft')">MINECRAFT</button>
+            <button onclick="setupGame('pvz')">PLANTAS VS ZOMBIES</button>
+        </div>
+
+        <div id="config-form" style="display:none;">
+            <input id="tiktok-username" placeholder="@tu_usuario">
+            <div id="game-options"></div>
+            <button onclick="saveConfig()">GUARDAR</button>
+            <button id="live-btn" onclick="toggleLive()">OFF</button>
+        </div>
+
+        <div id="live-status"></div>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
