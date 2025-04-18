@@ -1,27 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Stream to Earn - Web</title>
-    <style>
-        /* Estilos modernos aquí */
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream to Earn | Minecraft & PvZ</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <h1>Configura tu Stream to Earn</h1>
-        <div id="game-select">
-            <button onclick="setupGame('minecraft')">MINECRAFT</button>
-            <button onclick="setupGame('pvz')">PLANTAS VS ZOMBIES</button>
+        <header>
+            <h1>STREAM TO EARN</h1>
+            <p>Conecta tu TikTok LIVE a Minecraft o Plantas vs Zombies</p>
+        </header>
+
+        <div class="main-box">
+            <!-- Pantalla de selección de juego -->
+            <div id="game-select">
+                <button class="minecraft-btn" onclick="selectGame('minecraft')">MINECRAFT</button>
+                <button class="pvz-btn" onclick="selectGame('pvz')">PLANTAS VS ZOMBIES</button>
+            </div>
+
+            <!-- Formulario de configuración -->
+            <div id="config-form" style="display: none;">
+                <h2 id="game-title">CONFIGURACIÓN</h2>
+                
+                <div class="input-group">
+                    <label for="tiktok-username">Usuario de TikTok:</label>
+                    <input type="text" id="tiktok-username" placeholder="@tu_usuario">
+                </div>
+
+                <!-- Configuración dinámica por juego -->
+                <div id="game-options"></div>
+
+                <!-- Botones de acción -->
+                <div class="action-buttons">
+                    <button id="confirm-btn" onclick="saveConfig()">CONFIRMAR</button>
+                    <button id="live-btn" onclick="toggleLive()">OFF</button>
+                </div>
+            </div>
+
+            <!-- Estado "En Vivo" -->
+            <div id="live-status">
+                <span id="live-text">● EN VIVO</span>
+                <div id="event-log"></div>
+            </div>
         </div>
 
-        <div id="config-form" style="display:none;">
-            <input id="tiktok-username" placeholder="@tu_usuario">
-            <div id="game-options"></div>
-            <button onclick="saveConfig()">GUARDAR</button>
-            <button id="live-btn" onclick="toggleLive()">OFF</button>
-        </div>
-
-        <div id="live-status"></div>
+        <footer>
+            <p>Creado con ♥ para streamers</p>
+        </footer>
     </div>
     <script src="app.js"></script>
 </body>
