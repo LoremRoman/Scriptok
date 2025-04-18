@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream to Earn | By Dev</title>
+    <title>Stream2Earn | By Dev</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="background" id="background"></div>
+    <div class="background hidden" id="background"></div>
     
     <div class="container">
         <!-- Box Principal -->
@@ -21,14 +21,8 @@
 
             <!-- Selección de Juego -->
             <div id="game-select">
-                <button class="minecraft-btn" onclick="selectGame('minecraft')">
-                    <img src="assets/minecraft-icon.png" alt="Minecraft">
-                    MINECRAFT
-                </button>
-                <button class="pvz-btn" onclick="selectGame('pvz')">
-                    <img src="assets/pvz-icon.png" alt="PvZ">
-                    PLANTAS VS ZOMBIES
-                </button>
+                <button class="minecraft-btn" onclick="selectGame('minecraft')">MINECRAFT</button>
+                <button class="pvz-btn" onclick="selectGame('pvz')">PLANTAS VS ZOMBIES</button>
             </div>
 
             <!-- Formulario Config -->
@@ -43,14 +37,16 @@
                 <!-- Opciones Dinámicas -->
                 <div id="game-options"></div>
 
+                <!-- Lista de Mobs Agregados -->
+                <div id="mobs-list" class="hidden">
+                    <h3>📜 Reglas Activas:</h3>
+                    <ul id="mobs-list-content"></ul>
+                </div>
+
                 <!-- Botones -->
                 <div class="action-buttons">
-                    <button id="confirm-btn" class="confirm" onclick="saveConfig()">
-                        ✅ GUARDAR
-                    </button>
-                    <button id="live-btn" class="off" onclick="toggleLive()">
-                        ⚪ OFF
-                    </button>
+                    <button id="confirm-btn" class="confirm" onclick="saveConfig()">✅ GUARDAR</button>
+                    <button id="live-btn" class="off" onclick="toggleLive()">⚪ OFF</button>
                 </div>
             </div>
 
@@ -61,10 +57,6 @@
                 <div id="event-log"></div>
             </div>
         </div>
-
-        <footer>
-            <p>Creado con ♥ para streamers</p>
-        </footer>
     </div>
 
     <script src="app.js"></script>
