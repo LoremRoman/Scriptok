@@ -1,9 +1,11 @@
-// Lista de TODOS los mobs hostiles de Minecraft
+// Lista de TODOS los mobs hostiles de Minecraft (actualizada a 2023)
 const hostileMobs = [
-    "zombie", "skeleton", "creeper", "spider", "enderman", "witch", "slime", 
-    "ghast", "blaze", "magma_cube", "phantom", "drowned", "husk", "stray", 
-    "vex", "vindicator", "evoker", "pillager", "ravager", "guardian", "elder_guardian",
-    "shulker", "silverfish", "endermite", "hoglin", "zoglin", "warden"
+    "blaze", "creeper", "drowned", "elder_guardian", "ender_dragon", 
+    "enderman", "endermite", "evoker", "ghast", "guardian", "hoglin", 
+    "husk", "illusioner", "magma_cube", "phantom", "pillager", "ravager", 
+    "shulker", "silverfish", "skeleton", "slime", "stray", "vex", 
+    "vindicator", "warden", "witch", "zoglin", "zombie", "zombie_villager", 
+    "spider", "cave_spider"
 ];
 
 let config = {
@@ -13,40 +15,55 @@ let config = {
     rules: []
 };
 
+// Cambiar fondo según juego seleccionado
+function updateBackground(game) {
+    const bg = document.querySelector(".background");
+    bg.style.backgroundImage = `url(assets/bg-${game}.jpg)`;
+}
+
 // Seleccionar juego
 function selectGame(game) {
     config.game = game;
-    document.getElementById("game-select").style.display = "none";
-    document.getElementById("config-form").style.display = "block";
-    document.getElementById("game-title").textContent = `CONFIGURACIÓN: ${game.toUpperCase()}`;
-
+    updateBackground(game);
+    
+    // Ocultar selección y mostrar formulario
+    document.getElementById("game-select").classList.add("hidden");
+    document.getElementById("config-form").classList.remove("hidden");
+    
+    // Actualizar título
+    const gameTitle = document.getElementById("game-title");
+    const gameIcon = document.getElementById("game-icon");
+    gameTitle.textContent = `CONFIGURACIÓN: ${game.toUpperCase()}`;
+    gameIcon.textContent = game === "minecraft" ? "⛏️" : "🌱";
+    
+    // Generar opciones del juego
     let html = "";
     if (game === "minecraft") {
         html = `
             <div class="input-group">
-                <label for="rcon-password">Contraseña RCON:</label>
-                <input type="password" id="rcon-password" placeholder="contraseña">
+                <label>🔑 Contraseña RCON:</label>
+                <input type="password" id="rcon-password" placeholder="contraseña_rcon">
             </div>
             <div class="input-group">
-                <label for="mob-select">Mob Hostil:</label>
+                <label>👹 Mob Hostil:</label>
                 <select id="mob-select">
-                    ${hostileMobs.map(mob => `<option value="${mob}">${mob}</option>`).join("")}
+                    ${hostileMobs.map(mob => `<option value="${mob}">${mob.replace("_", " ")}</option>`).join("")}
                 </select>
             </div>
             <div class="input-group">
-                <label for="coins">Monedas requeridas:</label>
-                <input type="number" id="coins" placeholder="100">
+                <label>💰 Monedas requeridas:</label>
+                <input type="number" id="coins" placeholder="100" min="1">
             </div>
             <div class="input-group">
-                <label for="quantity">Cantidad de mobs:</label>
+                <label>🔢 Cantidad de mobs:</label>
                 <input type="number" id="quantity" placeholder="1" min="1" max="100">
             </div>
-            <button onclick="addRule()">AÑADIR REGLA</button>
+            <button onclick="addRule()" class="add-rule">➕ AÑADIR REGLA</button>
         `;
     } else if (game === "pvz") {
         html = `
             <div class="input-group">
-                <label for="pvz-path">Ruta del ejecutable PvZ:</label>
+                <label>🖥️ Ruta del ejecutable:</label>
                 <input type="text" id="pvz-path" placeholder="C:/Program Files/PvZ/pvz.exe">
             </div>
         `;
@@ -54,7 +71,7 @@ function selectGame(game) {
     document.getElementById("game-options").innerHTML = html;
 }
 
-// Añadir regla de donación
+// Añadir regla
 function addRule() {
     const mob = document.getElementById("mob-select").value;
     const coins = parseInt(document.getElementById("coins").value);
@@ -66,12 +83,19 @@ function addRule() {
     }
 
     config.rules.push({ mob, coins, quantity });
-    alert(`Regla añadida: ${quantity} ${mob} por ${coins} monedas`);
+    alert(`✅ Regla añadida:\n${quantity} ${mob} por ${coins} monedas`);
 }
 
 // Guardar configuración
 function saveConfig() {
     config.tiktokUser = document.getElementById("tiktok-username").value;
+    
+    if (config.game === "minecraft") {
+        config.rconPassword = document.getElementById("rcon-password").value;
+    } else if (config.game === "pvz") {
+        config.pvzPath = document.getElementById("pvz-path").value;
+    }
+    
     alert("¡Configuración guardada! Haz clic en ON para empezar.");
 }
 
@@ -80,21 +104,28 @@ function toggleLive() {
     const btn = document.getElementById("live-btn");
     config.isLive = !config.isLive;
 
-    if (config.isLive") {
-        btn.textContent = "ON";
-        btn.style.background = "#4CAF50";
-        document.getElementById("live-status").style.display = "block";
+    if (config.isLive) {
+        btn.textContent = "🟢 ON";
+        btn.classList.remove("off");
+        btn.classList.add("on");
+        document.getElementById("live-status").classList.remove("hidden");
         startConnection();
     } else {
-        btn.textContent = "OFF";
-        btn.style.background = "#5a3e2b";
-        document.getElementById("live-status").style.display = "none";
+        btn.textContent = "⚪ OFF";
+        btn.classList.remove("on");
+        btn.classList.add("off");
+        document.getElementById("live-status").classList.add("hidden");
     }
 }
 
-// Conectar a TikTok LIVE (simulación)
+// Simular conexión (reemplazar con WebSocket real)
 function startConnection() {
     const log = document.getElementById("event-log");
     log.innerHTML += `<p>Conectando a @${config.tiktokUser}...</p>`;
-    // Aquí iría la conexión real con WebSocket/API
+    
+    // Simular eventos de donación (eliminar en producción)
+    setTimeout(() => {
+        log.innerHTML += `<p>🟢 Conectado al LIVE!</p>`;
+        log.innerHTML += `<p>🔔 Ejemplo: 100 monedas → 1 creeper</p>`;
+    }, 1500);
 }
