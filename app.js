@@ -1,11 +1,10 @@
-// Lista de TODOS los mobs hostiles de Minecraft (actualizada a 2023)
+// Lista de TODOS los mobs hostiles de Minecraft
 const hostileMobs = [
-    "blaze", "creeper", "drowned", "elder_guardian", "ender_dragon", 
-    "enderman", "endermite", "evoker", "ghast", "guardian", "hoglin", 
-    "husk", "illusioner", "magma_cube", "phantom", "pillager", "ravager", 
-    "shulker", "silverfish", "skeleton", "slime", "stray", "vex", 
-    "vindicator", "warden", "witch", "zoglin", "zombie", "zombie_villager", 
-    "spider", "cave_spider"
+    "blaze", "creeper", "drowned", "elder_guardian", "enderman", 
+    "endermite", "evoker", "ghast", "guardian", "hoglin", "husk", 
+    "magma_cube", "phantom", "pillager", "ravager", "shulker", 
+    "silverfish", "skeleton", "slime", "stray", "vex", "vindicator", 
+    "warden", "witch", "zoglin", "zombie", "spider", "cave_spider"
 ];
 
 let config = {
@@ -15,16 +14,14 @@ let config = {
     rules: []
 };
 
-// Cambiar fondo según juego seleccionado
-function updateBackground(game) {
-    const bg = document.querySelector(".background");
-    bg.style.backgroundImage = `url(assets/bg-${game}.jpg)`;
-}
-
 // Seleccionar juego
 function selectGame(game) {
     config.game = game;
-    updateBackground(game);
+    
+    // Mostrar fondo del juego seleccionado
+    const bg = document.getElementById("background");
+    bg.style.backgroundImage = `url(assets/bg-${game}.jpg)`;
+    bg.classList.remove("hidden");
     
     // Ocultar selección y mostrar formulario
     document.getElementById("game-select").classList.add("hidden");
@@ -71,7 +68,7 @@ function selectGame(game) {
     document.getElementById("game-options").innerHTML = html;
 }
 
-// Añadir regla
+// Añadir regla y actualizar lista
 function addRule() {
     const mob = document.getElementById("mob-select").value;
     const coins = parseInt(document.getElementById("coins").value);
@@ -83,7 +80,35 @@ function addRule() {
     }
 
     config.rules.push({ mob, coins, quantity });
-    alert(`✅ Regla añadida:\n${quantity} ${mob} por ${coins} monedas`);
+    updateMobsList();
+}
+
+// Actualizar lista de mobs
+function updateMobsList() {
+    const list = document.getElementById("mobs-list-content");
+    list.innerHTML = "";
+
+    if (config.rules.length === 0) {
+        document.getElementById("mobs-list").classList.add("hidden");
+        return;
+    }
+
+    document.getElementById("mobs-list").classList.remove("hidden");
+    
+    config.rules.forEach((rule, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span>${rule.quantity}x ${rule.mob} (${rule.coins} monedas)</span>
+            <button onclick="removeRule(${index})">🗑️ Eliminar</button>
+        `;
+        list.appendChild(li);
+    });
+}
+
+// Eliminar regla
+function removeRule(index) {
+    config.rules.splice(index, 1);
+    updateMobsList();
 }
 
 // Guardar configuración
@@ -121,11 +146,10 @@ function toggleLive() {
 // Simular conexión (reemplazar con WebSocket real)
 function startConnection() {
     const log = document.getElementById("event-log");
-    log.innerHTML += `<p>Conectando a @${config.tiktokUser}...</p>`;
+    log.innerHTML = `<p>Conectando a @${config.tiktokUser}...</p>`;
     
-    // Simular eventos de donación (eliminar en producción)
     setTimeout(() => {
-        log.innerHTML += `<p>🟢 Conectado al LIVE!</p>`;
-        log.innerHTML += `<p>🔔 Ejemplo: 100 monedas → 1 creeper</p>`;
+        log.innerHTML += `<p>🟢 ¡Conectado al LIVE!</p>`;
+        log.innerHTML += `<p>🔔 Prueba: Donación de 100 monedas generaría mobs.</p>`;
     }, 1500);
 }
