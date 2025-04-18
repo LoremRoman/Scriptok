@@ -3,46 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream to Earn | Minecraft & PvZ</title>
+    <title>Stream to Earn | By Dev</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="background" id="background"></div>
+    
     <div class="container">
-        <header>
-            <h1>STREAM TO EARN</h1>
-            <p>Conecta tu TikTok LIVE a Minecraft o Plantas vs Zombies</p>
-        </header>
-
+        <!-- Box Principal -->
         <div class="main-box">
-            <!-- Pantalla de selección de juego -->
+            <!-- Encabezado -->
+            <header>
+                <h1>STREAM<span>2</span>EARN</h1>
+                <p>Conecta tu TikTok LIVE a juegos</p>
+            </header>
+
+            <!-- Selección de Juego -->
             <div id="game-select">
-                <button class="minecraft-btn" onclick="selectGame('minecraft')">MINECRAFT</button>
-                <button class="pvz-btn" onclick="selectGame('pvz')">PLANTAS VS ZOMBIES</button>
+                <button class="minecraft-btn" onclick="selectGame('minecraft')">
+                    <img src="assets/minecraft-icon.png" alt="Minecraft">
+                    MINECRAFT
+                </button>
+                <button class="pvz-btn" onclick="selectGame('pvz')">
+                    <img src="assets/pvz-icon.png" alt="PvZ">
+                    PLANTAS VS ZOMBIES
+                </button>
             </div>
 
-            <!-- Formulario de configuración -->
-            <div id="config-form" style="display: none;">
-                <h2 id="game-title">CONFIGURACIÓN</h2>
+            <!-- Formulario Config -->
+            <div id="config-form" class="hidden">
+                <h2 id="game-title"><span id="game-icon">🎮</span> CONFIGURACIÓN</h2>
                 
                 <div class="input-group">
-                    <label for="tiktok-username">Usuario de TikTok:</label>
+                    <label>🔴 Usuario de TikTok:</label>
                     <input type="text" id="tiktok-username" placeholder="@tu_usuario">
                 </div>
 
-                <!-- Configuración dinámica por juego -->
+                <!-- Opciones Dinámicas -->
                 <div id="game-options"></div>
 
-                <!-- Botones de acción -->
+                <!-- Botones -->
                 <div class="action-buttons">
-                    <button id="confirm-btn" onclick="saveConfig()">CONFIRMAR</button>
-                    <button id="live-btn" onclick="toggleLive()">OFF</button>
+                    <button id="confirm-btn" class="confirm" onclick="saveConfig()">
+                        ✅ GUARDAR
+                    </button>
+                    <button id="live-btn" class="off" onclick="toggleLive()">
+                        ⚪ OFF
+                    </button>
                 </div>
             </div>
 
-            <!-- Estado "En Vivo" -->
-            <div id="live-status">
-                <span id="live-text">● EN VIVO</span>
+            <!-- Panel "En Vivo" -->
+            <div id="live-status" class="hidden">
+                <div class="live-pulse"></div>
+                <span>EN VIVO</span>
                 <div id="event-log"></div>
             </div>
         </div>
@@ -51,6 +66,7 @@
             <p>Creado con ♥ para streamers</p>
         </footer>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>
